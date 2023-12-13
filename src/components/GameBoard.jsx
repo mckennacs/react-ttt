@@ -4,6 +4,7 @@ const initialGameBoard = [
     [null, null, null]
 ]
 
+
 export default function GameBoard({ onSelectSquare, turns }) {
 
   // Derived state:
@@ -18,7 +19,7 @@ export default function GameBoard({ onSelectSquare, turns }) {
     gameBoard[row][col] = player;
   }
 
-
+  
   // const [gameBoard, setGameBoard] =  useState(initialGameBoard);
 
   // Objects and arrays (also objects) are reference values in JS
@@ -40,7 +41,7 @@ export default function GameBoard({ onSelectSquare, turns }) {
             <ol>
                 {row.map((playerSymbol, colIndex) => (
                 <li key={colIndex}>
-                  <button onClick={onSelectSquare}>{playerSymbol}</button>
+                  <button onClick={() => onSelectSquare(rowIndex, colIndex)}>{playerSymbol}</button>
                 </li>
                 ))}
             </ol>

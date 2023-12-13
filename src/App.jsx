@@ -5,6 +5,8 @@ import GameBoard from "./components/GameBoard.jsx";
 import Log from "./components/Log.jsx";
 
 function App() {
+  // List of turns, can be used for log
+  // TODO: use gameTurns in Log.jsx
   const [gameTurns, setGameTurns] = useState([]);
   const [activePlayer, setActivePlayer] = useState('X');
 
@@ -20,13 +22,16 @@ function App() {
         currentPlayer = 'O';
       };
 
-      const updatedTurns = [{ square: {row: rowIndex, col: colIndex}, player: activePlayer }, ...prevTurns
+      // updatedTurns array, copy of prevTurns
+      // First item in array is always latest move
+      const updatedTurns = [
+        { square: { row: rowIndex, col: colIndex }, player: currentPlayer }, ...prevTurns,
       ];
-
+      // console.log('Player ' + updatedTurns[0].player, 'Square ' + updatedTurns[0].square.col, updatedTurns[0].square.row);
       return updatedTurns;
     });
   }
-
+  
   return (
     <main>
       <div id="game-container">
@@ -38,7 +43,8 @@ function App() {
           turns={gameTurns}
         />
       </div>
-      <Log />
+      {/* TODO: Update Log */}
+      <Log gameTurn={updatedTurns} player={activePlayer} />
     </main>
   );
 }
