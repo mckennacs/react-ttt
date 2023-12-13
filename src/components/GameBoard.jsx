@@ -1,25 +1,37 @@
-import { useState } from "react";
-
 const initialGameBoard = [
     [null, null, null],
     [null, null, null],
     [null, null, null]
 ]
 
-export default function GameBoard({ onSelectSquare, activePlayerSymbol }) {
-  const [gameBoard, setGameBoard] =  useState(initialGameBoard);
+export default function GameBoard({ onSelectSquare, turns }) {
+
+  // Derived state:
+  // Gameboard 
+  let gameBoard = initialGameBoard;
+
+  // Uses for loop to get values of turns array
+  for (const turn of turns) {
+    const { square, player } = turn;
+    const { row, col } = square;
+
+    gameBoard[row][col] = player;
+  }
+
+
+  // const [gameBoard, setGameBoard] =  useState(initialGameBoard);
 
   // Objects and arrays (also objects) are reference values in JS
   // You should therefore not mutate them directly - instead create a (deep) copy first!
-  function handleSelectSquare(rowIndex, colIndex) {
-    setGameBoard((prevGameBoard) => {
-      const updatedBoard = [...prevGameBoard.map(innerArray => [...innerArray])];
-      updatedBoard[rowIndex][colIndex] = activePlayerSymbol;
-      return updatedBoard;
-    });
+  // function handleSelectSquare(rowIndex, colIndex) {
+  //   setGameBoard((prevGameBoard) => {
+  //     const updatedBoard = [...prevGameBoard.map(innerArray => [...innerArray])];
+  //     updatedBoard[rowIndex][colIndex] = activePlayerSymbol;
+  //     return updatedBoard;
+  //   });
 
-    onSelectSquare();
-  }
+  //   onSelectSquare();
+  // }
 
     return (
       <ol id="game-board">
@@ -28,7 +40,7 @@ export default function GameBoard({ onSelectSquare, activePlayerSymbol }) {
             <ol>
                 {row.map((playerSymbol, colIndex) => (
                 <li key={colIndex}>
-                  <button onClick={() => handleSelectSquare(rowIndex, colIndex)}>{playerSymbol}</button>
+                  <button onClick={onSelectSquare}>{playerSymbol}</button>
                 </li>
                 ))}
             </ol>
