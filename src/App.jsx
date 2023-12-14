@@ -4,30 +4,37 @@ import Player from "./components/Player.jsx";
 import GameBoard from "./components/GameBoard.jsx";
 import Log from "./components/Log.jsx";
 
+// Helper function, outside component
+
+function deriveActivePlayer(gameTurns) {
+  let currentPlayer = 'X';
+
+  if (gameTurns.length > 0 && gameTurns[0].player === 'X') {
+    currentPlayer = 'O';
+  }
+
+  return currentPlayer;
+}
+
 function App() {
   // List of turns, can be used for log
-  // TODO: use gameTurns in Log.jsx
   const [gameTurns, setGameTurns] = useState([]);
-  const [activePlayer, setActivePlayer] = useState('X');
+  // Below: previous method for tracking players, but redundant due to above state
+  // const [activePlayer, setActivePlayer] = useState('X');
+
+  const activePlayer = deriveActivePlayer(gameTurns);
 
   function handleSelectSquare(rowIndex, colIndex) {
     setActivePlayer((curActivePlayer) => curActivePlayer === 'X' ? 'O' : 'X');
     // Object to store turn info: square/col, player and player symbol
     setGameTurns(prevTurns => {
-      let currentPlayer = 'X';
-
-      // Checks which player made last turn, then switches
-      // Makes sure prevTurns has more than 0 entries (ie if a turn has been played)
-      if (prevTurns.length > 0 && prevTurns[0].player === 'X') {
-        currentPlayer = 'O';
-      };
+      const currentPlayer = deriveActivePlayer(prevTurns);
 
       // updatedTurns array, copy of prevTurns
       // First item in array is always latest move
       const updatedTurns = [
         { square: { row: rowIndex, col: colIndex }, player: currentPlayer }, ...prevTurns,
       ];
-      // console.log('Player ' + updatedTurns[0].player, 'Square ' + updatedTurns[0].square.col, updatedTurns[0].square.row);
       return updatedTurns;
     });
   }
@@ -44,7 +51,7 @@ function App() {
         />
       </div>
       {/* TODO: Update Log */}
-      <Log gameTurn={updatedTurns} player={activePlayer} />
+      <Log turns={gameTurns}/>
     </main>
   );
 }
