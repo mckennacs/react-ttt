@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import React from "react";
 import Player from "./components/Player.jsx";
 import GameBoard from "./components/GameBoard.jsx";
 import Log from "./components/Log.jsx";
@@ -25,7 +25,7 @@ function App() {
   const activePlayer = deriveActivePlayer(gameTurns);
 
   function handleSelectSquare(rowIndex, colIndex) {
-    setActivePlayer((curActivePlayer) => curActivePlayer === 'X' ? 'O' : 'X');
+    // setActivePlayer((curActivePlayer) => curActivePlayer === 'X' ? 'O' : 'X');
     // Object to store turn info: square/col, player and player symbol
     setGameTurns(prevTurns => {
       const currentPlayer = deriveActivePlayer(prevTurns);
